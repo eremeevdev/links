@@ -4,13 +4,15 @@ from core import UrlHandler
 import re
 
 
-def get_urls_from_text(text) -> str:
+class NoUrlException(Exception):
+	pass
+
+
+def get_urls_from_text(message: telebot.types.Message) -> str:
 	url_pattern = r'(https?://[^\s]+)'
-	url_match = re.search(url_pattern, text)
+	url_match = re.search(url_pattern, message.text)
 	if url_match:
 		return url_match.group(0)
-	else:
-		raise ValueError("No URL found in the text")
 
 
 def get_url_from_forward(message: telebot.types.Message):
@@ -21,11 +23,12 @@ def get_url_from_forward(message: telebot.types.Message):
 
 
 def extract_url(message: telebot.types.Message) -> str:
-	url = get_url_from_forward(message)
-	if url:
-		return url
+	for handler in [get_url_from_forward, get_urls_from_text]:
+		url = handler(message)
+		if url:
+			return url
 
-	return get_urls_from_text(message.text)
+	raise NoUrlException(message.text)
 
 
 class Bot:
