@@ -14,7 +14,7 @@ class Bot:
 	def send_welcome(self, message):
 		self._bot.reply_to(message, "Howdy, how are you doing?")
 
-	def handle_url(self, message):
+	def handle_url(self, message: telebot.types.Message):
 		self._bot.reply_to(message, 'wait...')
 		self._handler.handle(message.text)
 		self._bot.reply_to(message, 'done')
