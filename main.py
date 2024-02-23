@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass
 
+import dotenv
 from bot import Bot
 from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherChain, NotionUrlInfoStore
 
@@ -37,6 +38,8 @@ def create_default_handler(config: Config) -> UrlHandler:
 
 
 def main():
+    dotenv.load_dotenv()
+
     config = Config.from_env()
     handler = create_default_handler(config)
     bot = Bot(config.tg_api_key, handler)
