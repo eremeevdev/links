@@ -5,7 +5,6 @@ import re
 
 
 def get_urls_from_text(text) -> str:
-	# Regex pattern to find URLs
 	url_pattern = r'(https?://[^\s]+)'
 	url_match = re.search(url_pattern, text)
 	if url_match:
@@ -14,7 +13,18 @@ def get_urls_from_text(text) -> str:
 		raise ValueError("No URL found in the text")
 
 
+def get_url_from_forward(message: telebot.types.Message):
+	if message.forward_from_message_id is None:
+		return
+
+	return f'https://t.me/{message.forward_from_chat.username}/{message.forward_from_message_id}'
+
+
 def extract_url(message: telebot.types.Message) -> str:
+	url = get_url_from_forward(message)
+	if url:
+		return url
+
 	return get_urls_from_text(message.text)
 
 
