@@ -1,4 +1,5 @@
 import json
+import traceback
 from dataclasses import dataclass
 from typing import List, Protocol
 
@@ -55,7 +56,12 @@ class UrlHandler:
         self._store = store
 
     def handle(self, url: str):
-        info = self._fetcher.get_info(url)
+        try:
+            info = self._fetcher.get_info(url)
+        except Exception as e:
+            traceback.print_exc()
+            info = UrlInfo(title="N/A", url=url, tags=[])
+
         if info is not None:
             self._store.create_page(info)
 
