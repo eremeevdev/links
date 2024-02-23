@@ -1,6 +1,21 @@
 import telebot
 
 from core import UrlHandler
+import re
+
+
+def get_urls_from_text(text) -> str:
+	# Regex pattern to find URLs
+	url_pattern = r'(https?://[^\s]+)'
+	url_match = re.search(url_pattern, text)
+	if url_match:
+		return url_match.group(0)
+	else:
+		raise ValueError("No URL found in the text")
+
+
+def extract_url(message: telebot.types.Message) -> str:
+	return get_urls_from_text(message.text)
 
 
 class Bot:
@@ -16,7 +31,8 @@ class Bot:
 
 	def handle_url(self, message: telebot.types.Message):
 		self._bot.reply_to(message, 'wait...')
-		self._handler.handle(message.text)
+		url = extract_url(message)
+		self._handler.handle(url)
 		self._bot.reply_to(message, 'done')
 
 	def run(self):
