@@ -45,7 +45,7 @@ class UrlInfoFetcherContext:
 
 
 class UrlHandler:
-    def __init__(self, fetcher: UrlInfoFetcher, store: UrlInfoStore):
+    def __init__(self, fetcher: UrlInfoFetcherContext, store: UrlInfoStore):
         self._fetcher = fetcher
         self._store = store
 
