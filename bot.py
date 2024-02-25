@@ -44,29 +44,6 @@ class UrlExtractorContext:
 		raise NoUrlException(message.text)
 
 
-def get_urls_from_text(message: telebot.types.Message) -> str:
-	url_pattern = r'(https?://[^\s]+)'
-	url_match = re.search(url_pattern, message.text)
-	if url_match:
-		return url_match.group(0)
-
-
-def get_url_from_forward(message: telebot.types.Message):
-	if message.forward_from_message_id is None:
-		return
-
-	return f'https://t.me/{message.forward_from_chat.username}/{message.forward_from_message_id}'
-
-
-def extract_url(message: telebot.types.Message) -> str:
-	for handler in [get_url_from_forward, get_urls_from_text]:
-		url = handler(message)
-		if url:
-			return url
-
-	raise NoUrlException(message.text)
-
-
 class Bot:
 	def __init__(self, token, handler: UrlHandler, extractor: UrlExtractorContext):
 		self._bot = telebot.TeleBot(token)
