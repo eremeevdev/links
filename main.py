@@ -6,6 +6,7 @@ from bot import Bot
 from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherChain, NotionUrlInfoStore
 from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
 
+
 @dataclass
 class Config:
     notion_database_id: str
