@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import dotenv
 from bot import Bot
 from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherChain, NotionUrlInfoStore
-
+from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
 
 @dataclass
 class Config:
@@ -37,12 +37,20 @@ def create_default_handler(config: Config) -> UrlHandler:
     return handler
 
 
+def create_url_extractor() -> UrlExtractorContext:
+    strategies = [UrlFromForwardExtractor(), UrlFromTextExtractor()]
+    return UrlExtractorContext(strategies)
+
+
 def main():
     dotenv.load_dotenv()
 
     config = Config.from_env()
+
     handler = create_default_handler(config)
-    bot = Bot(config.tg_api_key, handler)
+    url_extractor = create_url_extractor()
+
+    bot = Bot(config.tg_api_key, handler, url_extractor)
     bot.run()
 
 
