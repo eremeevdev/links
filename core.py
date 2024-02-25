@@ -14,6 +14,7 @@ class UrlInfo:
 class TextInfo:
     title: str
     tags: List[str]
+    summary: str
 
 
 class UrlInfoFetcher(Protocol):
