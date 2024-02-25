@@ -35,6 +35,22 @@ class NotionUrlInfoStore:
                     }
                 }
             },
+            "children": [
+                {
+                    "object": "block",
+                    "paragraph": {
+                        "rich_text": [
+                            {
+                                "text": {
+                                    "content": info.summary
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         }
 
         self._client.pages.create(**params)
+
+

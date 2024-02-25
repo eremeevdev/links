@@ -8,6 +8,7 @@ class UrlInfo:
     title: str
     url: str
     tags: List[str]
+    summary: str
 
 
 @dataclass
