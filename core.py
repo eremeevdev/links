@@ -36,7 +36,7 @@ class UrlInfoStore(Protocol):
         ...
 
 
-class UrlInfoFetcherChain:
+class UrlInfoFetcherContext:
     def __init__(self):
         self._items: List[UrlInfoFetcher] = []
 

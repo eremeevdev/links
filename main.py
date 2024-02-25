@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import dotenv
 from bot import Bot
-from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherChain, NotionUrlInfoStore
+from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherContext, NotionUrlInfoStore
 from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
 
 
@@ -28,7 +28,7 @@ def create_url_handler(config: Config) -> UrlHandler:
     analyzer = GptTextAnalyzer(config.gpt_api_key)
     default_fetcher = DefaultUrlInfoFetcher(analyzer)
 
-    chain = UrlInfoFetcherChain()
+    chain = UrlInfoFetcherContext()
     chain.register_fetcher(default_fetcher)
 
     store = NotionUrlInfoStore(config.notion_api_key, config.notion_database_id)
