@@ -31,15 +31,21 @@ class UrlInfoStore(Protocol):
         ...
 
 
+class NoUrlInfoFetcherException(Exception):
+    pass
+
+
 class UrlInfoFetcherContext:
     def __init__(self, strategies: List[UrlInfoFetcher]):
         self.strategies = strategies
 
-    def get_info(self, url: str) -> UrlInfo | None:
+    def get_info(self, url: str) -> UrlInfo:
         for item in self.strategies:
             inf = item.get_info(url)
             if inf is not None:
                 return inf
+
+        raise NoUrlInfoFetcherException(url)
 
 
 class UrlHandler:
@@ -54,7 +60,4 @@ class UrlHandler:
             traceback.print_exc()
             info = UrlInfo(title="N/A", url=url, tags=[])
 
-        if info is not None:
-            self._store.create_page(info)
-
-
+        self._store.create_page(info)
