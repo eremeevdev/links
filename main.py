@@ -24,7 +24,7 @@ class Config:
         )
 
 
-def create_default_handler(config: Config) -> UrlHandler:
+def create_url_handler(config: Config) -> UrlHandler:
     analyzer = GptTextAnalyzer(config.gpt_api_key)
     default_fetcher = DefaultUrlInfoFetcher(analyzer)
 
@@ -48,7 +48,7 @@ def main():
 
     config = Config.from_env()
 
-    handler = create_default_handler(config)
+    handler = create_url_handler(config)
     url_extractor = create_url_extractor()
 
     bot = Bot(config.tg_api_key, handler, url_extractor)
