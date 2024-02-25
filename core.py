@@ -60,6 +60,6 @@ class UrlHandler:
             info = self._fetcher.get_info(url)
         except Exception as e:
             traceback.print_exc()
-            info = UrlInfo(title="N/A", url=url, tags=[])
+            info = UrlInfo(title="N/A", url=url, tags=[], summary='')
 
         self._store.create_page(info)

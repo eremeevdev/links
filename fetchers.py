@@ -18,7 +18,8 @@ class DefaultUrlInfoFetcher:
         url_info = UrlInfo(
             url=url,
             title=meta.title,
-            tags=text_info.tags
+            tags=text_info.tags,
+            summary=text_info.summary
         )
 
         return url_info
