@@ -3,7 +3,8 @@ from dataclasses import dataclass
 
 import dotenv
 from bot import Bot
-from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherContext, NotionUrlInfoStore
+from core import UrlHandler, GptTextAnalyzer, DefaultUrlInfoFetcher, UrlInfoFetcherContext
+from notion import NotionUrlInfoStore
 from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
 
 
