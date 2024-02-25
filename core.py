@@ -37,14 +37,11 @@ class UrlInfoStore(Protocol):
 
 
 class UrlInfoFetcherContext:
-    def __init__(self):
-        self._items: List[UrlInfoFetcher] = []
-
-    def register_fetcher(self, item: UrlInfoFetcher) -> None:
-        self._items.append(item)
+    def __init__(self, strategies: List[UrlInfoFetcher]):
+        self.strategies = strategies
 
     def get_info(self, url: str) -> UrlInfo | None:
-        for item in self._items:
+        for item in self.strategies:
             inf = item.get_info(url)
             if inf is not None:
                 return inf
