@@ -1,6 +1,8 @@
+import traceback
+
 import trafilatura
 
-from core import TextAnalyzer, UrlInfo
+from core import TextAnalyzer, UrlInfo, TextInfo
 
 
 class DefaultUrlInfoFetcher:
@@ -13,7 +15,11 @@ class DefaultUrlInfoFetcher:
         meta: trafilatura.metadata.Document = trafilatura.extract_metadata(downloaded)
         text: str = trafilatura.extract(downloaded)
 
-        text_info = self._analyzer.get_info(text)
+        try:
+            text_info = self._analyzer.get_info(text)
+        except:
+            traceback.print_exc()
+            text_info = TextInfo.empty()
 
         url_info = UrlInfo(
             url=url,

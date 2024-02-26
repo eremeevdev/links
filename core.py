@@ -17,6 +17,10 @@ class TextInfo:
     tags: List[str]
     summary: str
 
+    @staticmethod
+    def empty() -> 'TextInfo':
+        return TextInfo(title='', tags=[], summary='')
+
 
 class UrlInfoFetcher(Protocol):
     def get_info(self, url: str) -> UrlInfo | None:
