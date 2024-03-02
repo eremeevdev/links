@@ -25,8 +25,7 @@ class UrlFromForwardExtractor:
     def extract(self, message: telebot.types.Message) -> Optional[str]:
         if message.forward_from_message_id is None:
             return
-
-        return f'https://t.me/{message.forward_from_chat.username}/{message.forward_from_message_id}'
+        return f'https://t.me/{message.forward_from_chat.username}/{message.forward_from_message_id}?embed=1&mode=tme'
 
 
 class UrlExtractorContext:
