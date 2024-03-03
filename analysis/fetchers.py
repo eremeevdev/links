@@ -2,7 +2,7 @@ import traceback
 
 import trafilatura
 
-from core import TextAnalyzer, UrlInfo, TextInfo
+from .core import TextAnalyzer, UrlInfo, TextInfo
 
 
 class DefaultUrlInfoFetcher:

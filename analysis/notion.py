@@ -1,5 +1,5 @@
 from notion_client import Client as NotionClient
-from core import UrlInfo
+from .core import UrlInfo
 
 
 class NotionUrlInfoStore:

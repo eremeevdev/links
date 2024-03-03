@@ -1,7 +1,7 @@
 import telebot
 
-from core import UrlHandler
-from url import UrlExtractorContext
+from analysis import UrlHandler
+from .url import UrlExtractorContext
 
 
 class Bot:

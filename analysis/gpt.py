@@ -2,7 +2,7 @@ import json
 
 from openai import OpenAI
 
-from core import TextInfo
+from .core import TextInfo
 
 title = "Consistency Patterns"
 
