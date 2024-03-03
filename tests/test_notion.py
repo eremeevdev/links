@@ -10,7 +10,7 @@ class TestNotionUrlInfoStore:
 
     @pytest.fixture
     def store(self, mocker: MockerFixture):
-        mocker.patch("notion.NotionClient")
+        mocker.patch("analysis.notion.NotionClient")
         return NotionUrlInfoStore("key", "db_id")
 
     def test_create_page(self, store):
