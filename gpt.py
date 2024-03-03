@@ -225,6 +225,7 @@ prompt = '''
 }
 '''
 
+
 class GptTextAnalyzer:
     def __init__(self, api_key):
         self._client = OpenAI(api_key=api_key)
