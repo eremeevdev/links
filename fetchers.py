@@ -10,7 +10,11 @@ class DefaultUrlInfoFetcher:
         self._analyzer = analyzer
 
     def get_info(self, url: str) -> UrlInfo | None:
-        downloaded = trafilatura.fetch_url(url)
+        try:
+            downloaded = trafilatura.fetch_url(url)
+        except Exception as e:
+            traceback.print_exc()
+            return UrlInfo(url=url, title="N/A", tags=[], summary="")
 
         meta: trafilatura.metadata.Document = trafilatura.extract_metadata(downloaded)
         text: str = trafilatura.extract(downloaded)
