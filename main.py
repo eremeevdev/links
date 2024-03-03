@@ -27,15 +27,19 @@ class Config:
         )
 
 
-def create_url_handler(config: Config) -> UrlHandler:
+def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
     text_analyzer = GptTextAnalyzer(config.gpt_api_key)
 
     strategies = [
         DefaultUrlInfoFetcher(text_analyzer)
     ]
 
-    url_info_fetcher = UrlInfoFetcherContext(strategies)
+    return UrlInfoFetcherContext(strategies)
 
+
+def create_url_handler(config: Config) -> UrlHandler:
+
+    url_info_fetcher = create_info_fetcher(config)
     store = NotionUrlInfoStore(config.notion_api_key, config.notion_database_id)
 
     handler = UrlHandler(url_info_fetcher, store)
