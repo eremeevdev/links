@@ -5,6 +5,7 @@ import trafilatura
 from core import TextInfo, UrlInfo
 from fetchers import DefaultUrlInfoFetcher
 
+
 class TestDefaultUrlInfoFetcher:
 
     @pytest.fixture
@@ -43,7 +44,6 @@ class TestDefaultUrlInfoFetcher:
             tags=["tag1", "tag2"],
             summary="summary"
         )
-
 
     def test_fetch_failure(self, fetcher, mock_fetch, mock_metadata):
         mock_fetch.side_effect = Exception("Fetch error")
