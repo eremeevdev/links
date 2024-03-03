@@ -18,23 +18,20 @@ class TextInfo:
     summary: str
 
     @staticmethod
-    def empty() -> 'TextInfo':
-        return TextInfo(title='', tags=[], summary='')
+    def empty() -> "TextInfo":
+        return TextInfo(title="", tags=[], summary="")
 
 
 class UrlInfoFetcher(Protocol):
-    def get_info(self, url: str) -> UrlInfo | None:
-        ...
+    def get_info(self, url: str) -> UrlInfo | None: ...
 
 
 class TextAnalyzer(Protocol):
-    def get_info(self, text: str) -> TextInfo:
-        ...
+    def get_info(self, text: str) -> TextInfo: ...
 
 
 class UrlInfoStore(Protocol):
-    def create_page(self, info: UrlInfo):
-        ...
+    def create_page(self, info: UrlInfo): ...
 
 
 class NoUrlInfoFetcherException(Exception):
@@ -64,6 +61,6 @@ class UrlHandler:
             info = self._fetcher.get_info(url)
         except Exception as e:
             traceback.print_exc()
-            info = UrlInfo(title="N/A", url=url, tags=[], summary='')
+            info = UrlInfo(title="N/A", url=url, tags=[], summary="")
 
         self._store.create_page(info)

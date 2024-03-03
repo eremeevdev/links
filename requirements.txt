@@ -3,3 +3,6 @@ notion-client==2.2.1
 pyTelegramBotAPI==4.16.1
 trafilatura==1.7.0
 python-dotenv==1.0.1
+pytest
+pytest-mock
+black

@@ -7,7 +7,7 @@ from core import UrlHandler, UrlInfoFetcherContext
 from fetchers import DefaultUrlInfoFetcher
 from gpt import GptTextAnalyzer
 from notion import NotionUrlInfoStore
-from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
+from url import create_url_extractor
 
 
 @dataclass
@@ -18,34 +18,31 @@ class Config:
     tg_api_key: str
 
     @staticmethod
-    def from_env() -> 'Config':
+    def from_env() -> "Config":
         return Config(
-            notion_database_id=os.environ.get('NOTION_DATABASE_ID'),
-            notion_api_key=os.environ.get('NOTION_API_KEY'),
-            gpt_api_key=os.environ.get('GPT_API_KEY'),
-            tg_api_key=os.environ.get('TG_API_KEY')
+            notion_database_id=os.environ.get("NOTION_DATABASE_ID"),
+            notion_api_key=os.environ.get("NOTION_API_KEY"),
+            gpt_api_key=os.environ.get("GPT_API_KEY"),
+            tg_api_key=os.environ.get("TG_API_KEY"),
         )
 
 
-def create_url_handler(config: Config) -> UrlHandler:
+def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
     text_analyzer = GptTextAnalyzer(config.gpt_api_key)
 
-    strategies = [
-        DefaultUrlInfoFetcher(text_analyzer)
-    ]
+    strategies = [DefaultUrlInfoFetcher(text_analyzer)]
 
-    url_info_fetcher = UrlInfoFetcherContext(strategies)
+    return UrlInfoFetcherContext(strategies)
 
+
+def create_url_handler(config: Config) -> UrlHandler:
+
+    url_info_fetcher = create_info_fetcher(config)
     store = NotionUrlInfoStore(config.notion_api_key, config.notion_database_id)
 
     handler = UrlHandler(url_info_fetcher, store)
 
     return handler
-
-
-def create_url_extractor() -> UrlExtractorContext:
-    strategies = [UrlFromForwardExtractor(), UrlFromTextExtractor()]
-    return UrlExtractorContext(strategies)
 
 
 def main():
@@ -60,5 +57,5 @@ def main():
     bot.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
