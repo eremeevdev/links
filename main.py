@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 import dotenv
 
-from analysis import (DefaultUrlInfoFetcher)
+from analysis import DefaultUrlInfoFetcher
 from analysis import GptTextAnalyzer
 from analysis import NotionUrlInfoStore
-from analysis import (UrlHandler, UrlInfoFetcherContext)
+from analysis import UrlHandler, UrlInfoFetcherContext
 from bot import Bot
 from bot import create_url_extractor
 
