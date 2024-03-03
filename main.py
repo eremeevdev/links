@@ -7,7 +7,7 @@ from core import UrlHandler, UrlInfoFetcherContext
 from fetchers import DefaultUrlInfoFetcher
 from gpt import GptTextAnalyzer
 from notion import NotionUrlInfoStore
-from url import UrlExtractorContext, UrlFromTextExtractor, UrlFromForwardExtractor
+from url import create_url_extractor
 
 
 @dataclass
@@ -41,11 +41,6 @@ def create_url_handler(config: Config) -> UrlHandler:
     handler = UrlHandler(url_info_fetcher, store)
 
     return handler
-
-
-def create_url_extractor() -> UrlExtractorContext:
-    strategies = [UrlFromForwardExtractor(), UrlFromTextExtractor()]
-    return UrlExtractorContext(strategies)
 
 
 def main():

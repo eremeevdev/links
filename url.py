@@ -39,3 +39,8 @@ class UrlExtractorContext:
                 return url
 
         raise NoUrlException(message.text)
+
+
+def create_url_extractor() -> UrlExtractorContext:
+    strategies = [UrlFromForwardExtractor(), UrlFromTextExtractor()]
+    return UrlExtractorContext(strategies)
