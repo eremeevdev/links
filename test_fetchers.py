@@ -30,32 +30,18 @@ class TestDefaultUrlInfoFetcher:
         mock_metadata.return_value = MagicMock(title="title")
 
         analyzer = fetcher._analyzer
-        analyzer.get_info.return_value = TextInfo(
-            title="title",
-            tags=["tag1", "tag2"],
-            summary="summary"
-        )
+        analyzer.get_info.return_value = TextInfo(title="title", tags=["tag1", "tag2"], summary="summary")
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(
-            url="http://example.com",
-            title="title",
-            tags=["tag1", "tag2"],
-            summary="summary"
-        )
+        assert url_info == UrlInfo(url="http://example.com", title="title", tags=["tag1", "tag2"], summary="summary")
 
     def test_fetch_failure(self, fetcher, mock_fetch, mock_metadata):
         mock_fetch.side_effect = Exception("Fetch error")
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(
-            url="http://example.com",
-            title="N/A",
-            tags=[],
-            summary=""
-        )
+        assert url_info == UrlInfo(url="http://example.com", title="N/A", tags=[], summary="")
 
     def test_analysis_failure(self, fetcher, mock_fetch, mock_metadata):
         mock_fetch.return_value = "content"
@@ -66,9 +52,4 @@ class TestDefaultUrlInfoFetcher:
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(
-            url="http://example.com",
-            title="example.com",
-            tags=[],
-            summary=""
-        )
+        assert url_info == UrlInfo(url="http://example.com", title="example.com", tags=[], summary="")

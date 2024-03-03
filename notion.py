@@ -9,48 +9,14 @@ class NotionUrlInfoStore:
 
     def create_page(self, info: UrlInfo):
         params = {
-            "parent": {
-                "type": "database_id",
-                "database_id": self._database_id
-            },
+            "parent": {"type": "database_id", "database_id": self._database_id},
             "properties": {
-                "Name": {
-                    "title": [
-                        {
-                            "text": {
-                                "content": info.title
-                            }
-                        }
-                    ]
-                },
-                "URL": {
-                    "url": info.url
-                },
-                "Tags": {
-                    "multi_select": [{"name": tag} for tag in info.tags]
-                },
-                "List": {
-                    "select": {
-                        "name": "Inbox"
-                    }
-                }
+                "Name": {"title": [{"text": {"content": info.title}}]},
+                "URL": {"url": info.url},
+                "Tags": {"multi_select": [{"name": tag} for tag in info.tags]},
+                "List": {"select": {"name": "Inbox"}},
             },
-            "children": [
-                {
-                    "object": "block",
-                    "paragraph": {
-                        "rich_text": [
-                            {
-                                "text": {
-                                    "content": info.summary
-                                }
-                            }
-                        ]
-                    }
-                }
-            ]
+            "children": [{"object": "block", "paragraph": {"rich_text": [{"text": {"content": info.summary}}]}}],
         }
 
         self._client.pages.create(**params)
-
-

@@ -18,21 +18,19 @@ class Config:
     tg_api_key: str
 
     @staticmethod
-    def from_env() -> 'Config':
+    def from_env() -> "Config":
         return Config(
-            notion_database_id=os.environ.get('NOTION_DATABASE_ID'),
-            notion_api_key=os.environ.get('NOTION_API_KEY'),
-            gpt_api_key=os.environ.get('GPT_API_KEY'),
-            tg_api_key=os.environ.get('TG_API_KEY')
+            notion_database_id=os.environ.get("NOTION_DATABASE_ID"),
+            notion_api_key=os.environ.get("NOTION_API_KEY"),
+            gpt_api_key=os.environ.get("GPT_API_KEY"),
+            tg_api_key=os.environ.get("TG_API_KEY"),
         )
 
 
 def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
     text_analyzer = GptTextAnalyzer(config.gpt_api_key)
 
-    strategies = [
-        DefaultUrlInfoFetcher(text_analyzer)
-    ]
+    strategies = [DefaultUrlInfoFetcher(text_analyzer)]
 
     return UrlInfoFetcherContext(strategies)
 
@@ -59,5 +57,5 @@ def main():
     bot.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

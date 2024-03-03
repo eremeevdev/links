@@ -25,11 +25,6 @@ class DefaultUrlInfoFetcher:
             traceback.print_exc()
             text_info = TextInfo.empty()
 
-        url_info = UrlInfo(
-            url=url,
-            title=meta.title,
-            tags=text_info.tags,
-            summary=text_info.summary
-        )
+        url_info = UrlInfo(url=url, title=meta.title, tags=text_info.tags, summary=text_info.summary)
 
         return url_info

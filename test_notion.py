@@ -6,6 +6,7 @@ from pytest_mock import MockerFixture
 from notion import NotionUrlInfoStore
 from core import UrlInfo
 
+
 class TestNotionUrlInfoStore:
 
     @pytest.fixture
@@ -25,10 +26,7 @@ class TestNotionUrlInfoStore:
                 "Name": {"title": [{"text": {"content": info.title}}]},
                 "URL": {"url": info.url},
                 "Tags": {"multi_select": [{"name": tag} for tag in info.tags]},
-                "List": {"select": {"name": "Inbox"}}
+                "List": {"select": {"name": "Inbox"}},
             },
-
-            children=[
-                    {"object": "block", "paragraph": {"rich_text": [{"text": {"content": info.summary}}]}}
-            ]
+            children=[{"object": "block", "paragraph": {"rich_text": [{"text": {"content": info.summary}}]}}],
         )
