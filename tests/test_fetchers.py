@@ -2,8 +2,8 @@ import pytest
 from unittest.mock import MagicMock
 import trafilatura
 
-from core import TextInfo, UrlInfo
-from fetchers import DefaultUrlInfoFetcher
+from analysis import TextInfo, UrlInfo
+from analysis import DefaultUrlInfoFetcher
 
 
 class TestDefaultUrlInfoFetcher:

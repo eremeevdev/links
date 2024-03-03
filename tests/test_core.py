@@ -1,8 +1,9 @@
-import pytest
 from unittest.mock import MagicMock
 
-from core import UrlHandler, UrlInfo, UrlInfoFetcherContext, UrlInfoStore
-from core import UrlInfoFetcherContext, UrlInfoFetcher, NoUrlInfoFetcherException
+import pytest
+
+from analysis import UrlHandler, UrlInfo, UrlInfoStore
+from analysis import UrlInfoFetcherContext, UrlInfoFetcher, NoUrlInfoFetcherException
 
 
 class TestUrlHandler:

@@ -2,12 +2,13 @@ import os
 from dataclasses import dataclass
 
 import dotenv
+
+from analysis import (DefaultUrlInfoFetcher)
+from analysis import GptTextAnalyzer
+from analysis import NotionUrlInfoStore
+from analysis import (UrlHandler, UrlInfoFetcherContext)
 from bot import Bot
-from core import UrlHandler, UrlInfoFetcherContext
-from fetchers import DefaultUrlInfoFetcher
-from gpt import GptTextAnalyzer
-from notion import NotionUrlInfoStore
-from url import create_url_extractor
+from bot import create_url_extractor
 
 
 @dataclass

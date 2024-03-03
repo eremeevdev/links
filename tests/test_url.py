@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 import pytest
 import telebot
 
-from main import create_url_extractor
-from url import NoUrlException
+from bot import create_url_extractor
+from bot import NoUrlException
 
 
 @pytest.fixture

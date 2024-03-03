@@ -3,8 +3,7 @@ from unittest.mock import MagicMock
 import pytest
 from pytest_mock import MockerFixture
 
-from notion import NotionUrlInfoStore
-from core import UrlInfo
+from analysis import NotionUrlInfoStore, UrlInfo
 
 
 class TestNotionUrlInfoStore:
