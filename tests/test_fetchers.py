@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import trafilatura
 
 from analysis import TextInfo, UrlInfo
-from analysis import DefaultUrlInfoFetcher
+from analysis import DefaultUrlInfoFetcher, TgUrlInfoFetcher
 
 
 class TestDefaultUrlInfoFetcher:
@@ -53,3 +53,28 @@ class TestDefaultUrlInfoFetcher:
         url_info = fetcher.get_info("http://example.com")
 
         assert url_info == UrlInfo(url="http://example.com", title="example.com", tags=[], summary="")
+
+
+class TestTgUrlInfoFetcher:
+
+    @pytest.fixture
+    def fetcher(self):
+        mock_analyzer = MagicMock()
+        return TgUrlInfoFetcher(mock_analyzer)
+
+    def test_return_none_for_non_tg_url(self, fetcher):
+        assert fetcher.get_info("http://example.com") is None
+
+    def test_return_urlinfo_for_tg_url(self, fetcher):
+        url = "https://t.me/somechat/123"
+        mock_text_info = TextInfo(title="Mock Title", tags=['tag'], summary="summary")
+        fetcher._analyzer.get_info.return_value = mock_text_info
+
+        info = fetcher.get_info(url)
+
+        assert info == UrlInfo(
+            url=url,
+            title=mock_text_info.title,
+            tags=mock_text_info.tags,
+            summary=mock_text_info.summary
+        )
