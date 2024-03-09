@@ -34,7 +34,7 @@ class DefaultUrlInfoFetcher:
 
 class TgUrlInfoFetcher(DefaultUrlInfoFetcher):
     def get_info(self, url: str) -> UrlInfo | None:
-        if not url.startswith("tg://"):
+        if not url.startswith("https://t.me"):
             return None
         return super().get_info(url)
 
