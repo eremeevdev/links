@@ -30,3 +30,13 @@ class DefaultUrlInfoFetcher:
             text_info = TextInfo.empty()
 
         return self._build_url_info(url, meta, text_info)
+
+
+class TgUrlInfoFetcher(DefaultUrlInfoFetcher):
+    def get_info(self, url: str) -> UrlInfo | None:
+        if not url.startswith("tg://"):
+            return None
+        return super().get_info(url)
+
+    def _build_url_info(self, url: str, meta: Document, text_info: TextInfo) -> UrlInfo:
+        return UrlInfo(url=url, title=text_info.title, tags=text_info.tags, summary=text_info.summary)
