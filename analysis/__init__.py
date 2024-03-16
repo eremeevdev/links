@@ -7,6 +7,6 @@ from .core import (
     NoUrlInfoFetcherException,
     TextInfo,
 )
-from .fetchers import DefaultUrlInfoFetcher, TgUrlInfoFetcher
+from .fetchers import DefaultUrlInfoFetcher, TgUrlInfoFetcher, YTUrlInfoFetcher
 from .gpt import GptTextAnalyzer
 from .notion import NotionUrlInfoStore
