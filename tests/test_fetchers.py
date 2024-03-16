@@ -7,7 +7,6 @@ from analysis import TextInfo, UrlInfo, DefaultUrlInfoFetcher, TgUrlInfoFetcher,
 from analysis.core import TextAnalyzer
 
 
-
 class TestDefaultUrlInfoFetcher:
 
     @pytest.fixture
@@ -82,34 +81,26 @@ class TestTgUrlInfoFetcher:
 class TestYTUrlInfoFetcher:
 
     def test_get_info(self, mocker: MockerFixture):
-        mock_build = mocker.patch('analysis.fetchers.build')
+        mock_build = mocker.patch("analysis.fetchers.build")
         mock_client = mock_build.return_value
         mock_client.videos.return_value.list.return_value.execute.return_value = {
-            'items': [{
-                'snippet': {
-                    'title': 'Video title',
-                    'description': 'Video description'
-                }
-            }]
+            "items": [{"snippet": {"title": "Video title", "description": "Video description"}}]
         }
 
         mock_analyzer = mocker.Mock(spec=TextAnalyzer)
-        mock_analyzer.get_info.return_value = TextInfo(title='', summary='', tags=['tag1', 'tag2'])
+        mock_analyzer.get_info.return_value = TextInfo(title="", summary="", tags=["tag1", "tag2"])
 
-        fetcher = YTUrlInfoFetcher('api_key', mock_analyzer)
+        fetcher = YTUrlInfoFetcher("api_key", mock_analyzer)
 
-        video_id = 'abc123'
-        url = f'https://www.youtube.com/watch?v={video_id}'
+        video_id = "abc123"
+        url = f"https://www.youtube.com/watch?v={video_id}"
 
         info = fetcher.get_info(url)
 
-        assert info == UrlInfo(
-            url=url,
-            title='Video title',
-            summary='Video description',
-            tags=['tag1', 'tag2'])
+        assert info == UrlInfo(url=url, title="Video title", summary="Video description", tags=["tag1", "tag2"])
 
         mock_analyzer.get_info.assert_called_once_with(f"{info.title}\n{info.summary}")
 
-        mock_client.videos.return_value.list.assert_called_once_with(part='snippet,contentDetails,statistics', id=video_id)
-
+        mock_client.videos.return_value.list.assert_called_once_with(
+            part="snippet,contentDetails,statistics", id=video_id
+        )
