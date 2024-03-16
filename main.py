@@ -6,7 +6,7 @@ import dotenv
 from analysis import DefaultUrlInfoFetcher
 from analysis import GptTextAnalyzer
 from analysis import NotionUrlInfoStore
-from analysis import UrlHandler, UrlInfoFetcherContext, TgUrlInfoFetcher
+from analysis import UrlHandler, UrlInfoFetcherContext, TgUrlInfoFetcher, YTUrlInfoFetcher
 from bot import Bot
 from bot import create_url_extractor
 
@@ -33,7 +33,11 @@ class Config:
 def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
     text_analyzer = GptTextAnalyzer(config.gpt_api_key)
 
-    strategies = [TgUrlInfoFetcher(text_analyzer), DefaultUrlInfoFetcher(text_analyzer)]
+    strategies = [
+        YTUrlInfoFetcher(config.yt_api_key, text_analyzer),
+        TgUrlInfoFetcher(text_analyzer),
+        DefaultUrlInfoFetcher(text_analyzer)
+    ]
 
     return UrlInfoFetcherContext(strategies)
 

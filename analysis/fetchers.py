@@ -57,7 +57,7 @@ class YTUrlInfoFetcher():
 
     def _get_video_info(self, url: str) -> UrlInfo:
         video_id = self._extract_video_id(url)
-        video_response = self.client.videos().list(
+        video_response = self._client.videos().list(
             part='snippet,contentDetails,statistics',
             id=video_id
         ).execute()
