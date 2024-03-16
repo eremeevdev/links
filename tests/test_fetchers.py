@@ -1,9 +1,11 @@
 import pytest
+from pytest_mock import MockerFixture
 from unittest.mock import MagicMock
 import trafilatura
 
-from analysis import TextInfo, UrlInfo
-from analysis import DefaultUrlInfoFetcher, TgUrlInfoFetcher
+from analysis import TextInfo, UrlInfo, DefaultUrlInfoFetcher, TgUrlInfoFetcher, YTUrlInfoFetcher
+from analysis.core import TextAnalyzer
+
 
 
 class TestDefaultUrlInfoFetcher:
@@ -75,3 +77,36 @@ class TestTgUrlInfoFetcher:
         assert info == UrlInfo(
             url=url, title=mock_text_info.title, tags=mock_text_info.tags, summary=mock_text_info.summary
         )
+
+
+class TestYTUrlInfoFetcher:
+
+    def test_get_info(self, mocker: MockerFixture):
+        mock_build = mocker.patch('analysis.fetchers.build')
+        mock_client = mock_build.return_value
+        mock_client.videos.return_value.list.return_value.execute.return_value = {
+            'items': [{
+                'snippet': {
+                    'title': 'Video title',
+                    'description': 'Video description'
+                }
+            }]
+        }
+
+        mock_analyzer = mocker.Mock(spec=TextAnalyzer)
+        mock_analyzer.get_info.return_value = TextInfo(title='', summary='', tags=['tag1', 'tag2'])
+
+        fetcher = YTUrlInfoFetcher('api_key', mock_analyzer)
+
+        url = 'https://www.youtube.com/watch?v=abc123'
+        info = fetcher.get_info(url)
+
+        assert info.title == 'Video title'
+        assert info.summary == 'Video description'
+        assert info.url == url
+        assert info.tags == ['tag1', 'tag2']
+
+        mock_analyzer.get_info.assert_called_once_with("Video title\nVideo description")
+
+        video_id = url.split('=')[-1]
+        mock_client.videos.return_value.list.assert_called_once_with(part='snippet,contentDetails,statistics', id=video_id)
