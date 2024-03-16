@@ -109,7 +109,7 @@ class TestYTUrlInfoFetcher:
             summary='Video description',
             tags=['tag1', 'tag2'])
 
-        mock_analyzer.get_info.assert_called_once_with("Video title\nVideo description")
+        mock_analyzer.get_info.assert_called_once_with(f"{info.title}\n{info.summary}")
 
         mock_client.videos.return_value.list.assert_called_once_with(part='snippet,contentDetails,statistics', id=video_id)
 
