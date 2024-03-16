@@ -1,3 +1,4 @@
+import re
 import traceback
 
 import trafilatura
@@ -62,7 +63,12 @@ class YTUrlInfoFetcher:
         return self._get_info(url)
 
     def _extract_video_id(self, url: str) -> str:
-        return url.split("=")[-1]
+        match = re.search(r'v=([-\w]+)', url)
+        if match:
+            return match.group(1)
+        else:
+            raise ValueError('Could not extract video ID from URL')
+
 
     def _get_video_info(self, url: str) -> UrlInfo:
         video_id = self._extract_video_id(url)
