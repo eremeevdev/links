@@ -103,10 +103,11 @@ class TestYTUrlInfoFetcher:
 
         info = fetcher.get_info(url)
 
-        assert info.title == 'Video title'
-        assert info.summary == 'Video description'
-        assert info.url == url
-        assert info.tags == ['tag1', 'tag2']
+        assert info == UrlInfo(
+            url=url,
+            title='Video title',
+            summary='Video description',
+            tags=['tag1', 'tag2'])
 
         mock_analyzer.get_info.assert_called_once_with("Video title\nVideo description")
 
