@@ -17,6 +17,7 @@ class Config:
     notion_api_key: str
     gpt_api_key: str
     tg_api_key: str
+    yt_api_key: str
 
     @staticmethod
     def from_env() -> "Config":
@@ -25,6 +26,7 @@ class Config:
             notion_api_key=os.environ.get("NOTION_API_KEY"),
             gpt_api_key=os.environ.get("GPT_API_KEY"),
             tg_api_key=os.environ.get("TG_API_KEY"),
+            yt_api_key=os.environ.get("YT_API_KEY"),
         )
 
 
