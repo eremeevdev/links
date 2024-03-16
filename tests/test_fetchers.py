@@ -98,7 +98,9 @@ class TestYTUrlInfoFetcher:
 
         fetcher = YTUrlInfoFetcher('api_key', mock_analyzer)
 
-        url = 'https://www.youtube.com/watch?v=abc123'
+        video_id = 'abc123'
+        url = f'https://www.youtube.com/watch?v={video_id}'
+
         info = fetcher.get_info(url)
 
         assert info.title == 'Video title'
@@ -108,5 +110,5 @@ class TestYTUrlInfoFetcher:
 
         mock_analyzer.get_info.assert_called_once_with("Video title\nVideo description")
 
-        video_id = url.split('=')[-1]
         mock_client.videos.return_value.list.assert_called_once_with(part='snippet,contentDetails,statistics', id=video_id)
+
