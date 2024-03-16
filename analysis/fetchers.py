@@ -43,6 +43,14 @@ class TgUrlInfoFetcher(DefaultUrlInfoFetcher):
 
 
 class YTUrlInfoFetcher:
+    '''
+    Получение API ключа
+
+    - Войдите в Google Cloud Console и создайте новый проект (или выберите существующий).
+    - В поисковой строке наберите «YouTube Data API v3» и выберите соответствующий результат.
+    - Нажмите «Enable» для активации API на вашем проекте.
+    - В меню слева выберите «Credentials», затем «Create credentials» и «API key». Скопируйте полученный ключ.
+    '''
     def __init__(self, api_key: str, analyzer: TextAnalyzer):
         self._analyzer = analyzer
         self._client = build("youtube", "v3", developerKey=api_key)
