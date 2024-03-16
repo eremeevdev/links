@@ -50,7 +50,7 @@ class YTUrlInfoFetcher:
     def get_info(self, url: str) -> UrlInfo | None:
         if not url.startswith("https://www.youtube.com"):
             return None
-        return self._build_url_info(url)
+        return self._get_info(url)
 
     def _extract_video_id(self, url: str) -> str:
         return url.split("=")[-1]
@@ -66,7 +66,7 @@ class YTUrlInfoFetcher:
             tags=[],
         )
 
-    def _build_url_info(self, url: str) -> UrlInfo:
+    def _get_info(self, url: str) -> UrlInfo:
         url_info = self._get_video_info(url)
         text = f"{url_info.title}\n{url_info.summary}"
         text_info = self._analyzer.get_info(text)
