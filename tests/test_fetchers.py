@@ -67,14 +67,11 @@ class TestTgUrlInfoFetcher:
 
     def test_return_urlinfo_for_tg_url(self, fetcher):
         url = "https://t.me/somechat/123"
-        mock_text_info = TextInfo(title="Mock Title", tags=['tag'], summary="summary")
+        mock_text_info = TextInfo(title="Mock Title", tags=["tag"], summary="summary")
         fetcher._analyzer.get_info.return_value = mock_text_info
 
         info = fetcher.get_info(url)
 
         assert info == UrlInfo(
-            url=url,
-            title=mock_text_info.title,
-            tags=mock_text_info.tags,
-            summary=mock_text_info.summary
+            url=url, title=mock_text_info.title, tags=mock_text_info.tags, summary=mock_text_info.summary
         )

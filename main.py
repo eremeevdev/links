@@ -36,7 +36,7 @@ def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
     strategies = [
         YTUrlInfoFetcher(config.yt_api_key, text_analyzer),
         TgUrlInfoFetcher(text_analyzer),
-        DefaultUrlInfoFetcher(text_analyzer)
+        DefaultUrlInfoFetcher(text_analyzer),
     ]
 
     return UrlInfoFetcherContext(strategies)
