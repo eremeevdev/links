@@ -93,7 +93,7 @@ class TestYTUrlInfoFetcher:
         fetcher = YTUrlInfoFetcher("api_key", mock_analyzer)
 
         video_id = "abc123"
-        url = f"https://www.youtube.com/watch?v={video_id}"
+        url = f"https://www.youtube.com/watch?v={video_id}&x=123"
 
         info = fetcher.get_info(url)
 
