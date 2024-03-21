@@ -13,7 +13,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag eremeev/links:latest
     - name: Run tests
-      run: docker run --entrypoint py.test eremeev/links test
+      run: docker run --entrypoint py.test eremeev/links tests
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -21,3 +21,15 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Push image to Docker Hub
       run: docker push eremeev/links:latest
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        script: |
+          cd ~/links
+          docker pull eremeev/links:latest
+          docker stop links || true
+          docker rm links || true
+          ./run.sh
