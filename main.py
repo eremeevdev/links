@@ -1,4 +1,5 @@
 import os
+import logging
 from dataclasses import dataclass
 
 import dotenv
@@ -9,6 +10,10 @@ from analysis import NotionUrlInfoStore
 from analysis import UrlHandler, UrlInfoFetcherContext, TgUrlInfoFetcher, YTUrlInfoFetcher
 from bot import Bot
 from bot import create_url_extractor
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 @dataclass
@@ -61,6 +66,8 @@ def main():
     url_extractor = create_url_extractor()
 
     bot = Bot(config.tg_api_key, handler, url_extractor)
+
+    logger.error("start")
     bot.run()
 
 
