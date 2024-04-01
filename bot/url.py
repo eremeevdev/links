@@ -22,6 +22,7 @@ class UrlFromTextExtractor:
 
 class UrlFromForwardExtractor:
     def extract(self, message: telebot.types.Message) -> Optional[str]:
+        #  todo: add support for https://t.me/emacsway_log/1349 links
         if message.forward_from_message_id is None:
             return
         return f"https://t.me/{message.forward_from_chat.username}/{message.forward_from_message_id}?embed=1&mode=tme"
