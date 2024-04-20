@@ -12,7 +12,7 @@ class DefaultUrlInfoFetcher:
         self._analyzer = analyzer
 
     def _build_url_info(self, url: str, meta: Document, text_info: TextInfo) -> UrlInfo:
-        return UrlInfo(url=url, title=meta.title, tags=text_info.tags, summary=text_info.summary)
+        return UrlInfo(url=url, title=meta.title, tags=text_info.tags, summary=text_info.summary, keywords=text_info.keywords)
 
     def get_info(self, url: str) -> UrlInfo | None:
         try:
@@ -40,7 +40,7 @@ class TgUrlInfoFetcher(DefaultUrlInfoFetcher):
         return super().get_info(url)
 
     def _build_url_info(self, url: str, meta: Document, text_info: TextInfo) -> UrlInfo:
-        return UrlInfo(url=url, title=text_info.title, tags=text_info.tags, summary=text_info.summary)
+        return UrlInfo(url=url, title=text_info.title, tags=text_info.tags, summary=text_info.summary, keywords=text_info.keywords)
 
 
 class YTUrlInfoFetcher:
@@ -78,6 +78,7 @@ class YTUrlInfoFetcher:
             title=video_response["items"][0]["snippet"]["title"],
             summary=video_response["items"][0]["snippet"]["description"],
             tags=[],
+            keywords=[],
         )
 
     def _get_info(self, url: str) -> UrlInfo:
@@ -85,4 +86,5 @@ class YTUrlInfoFetcher:
         text = f"{url_info.title}\n{url_info.summary}"
         text_info = self._analyzer.get_info(text)
         url_info.tags = text_info.tags
+        url_info.keywords = text_info.keywords
         return url_info

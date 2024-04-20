@@ -9,6 +9,7 @@ class UrlInfo:
     url: str
     tags: List[str]
     summary: str
+    keywords: List[str]
 
 
 @dataclass
@@ -16,6 +17,7 @@ class TextInfo:
     title: str
     tags: List[str]
     summary: str
+    keywords: List[str]
 
     @staticmethod
     def empty() -> "TextInfo":
