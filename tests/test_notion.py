@@ -15,7 +15,7 @@ class TestNotionUrlInfoStore:
 
     def test_create_page(self, store):
 
-        info = UrlInfo("Example", "https://example.com", ["tag1", "tag2"], "summary")
+        info = UrlInfo("Example", "https://example.com", ["tag1", "tag2"], "summary", keywords=["k"])
 
         store.create_page(info)
 
@@ -27,5 +27,8 @@ class TestNotionUrlInfoStore:
                 "Tags": {"multi_select": [{"name": tag} for tag in info.tags]},
                 "List": {"select": {"name": "Inbox"}},
             },
-            children=[{"object": "block", "paragraph": {"rich_text": [{"text": {"content": info.summary}}]}}],
+            children=[
+                {"object": "block", "paragraph": {"rich_text": [{"text": {"content": info.summary}}]}},
+                {"object": "block", "paragraph": {"rich_text": [{"text": {"content": ", ".join(info.keywords)}}]}},
+            ],
         )

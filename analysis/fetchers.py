@@ -19,7 +19,7 @@ class DefaultUrlInfoFetcher:
             downloaded = trafilatura.fetch_url(url)
         except Exception as e:
             traceback.print_exc()
-            return UrlInfo(url=url, title="N/A", tags=[], summary="")
+            return UrlInfo(url=url, title="N/A", tags=[], summary="", keywords=[])
 
         meta: Document = trafilatura.extract_metadata(downloaded)
         text: str = trafilatura.extract(downloaded)
