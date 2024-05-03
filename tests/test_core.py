@@ -17,7 +17,7 @@ class TestUrlHandler:
         return MagicMock(UrlInfoStore)
 
     def test_handle(self, fetcher, store):
-        fetcher.get_info.return_value = UrlInfo("Title", "http://url.com", ["tag1"], "summary")
+        fetcher.get_info.return_value = UrlInfo("Title", "http://url.com", ["tag1"], "summary", ["k"])
 
         handler = UrlHandler(fetcher, store)
 
@@ -25,7 +25,7 @@ class TestUrlHandler:
         handler.handle(url)
 
         fetcher.get_info.assert_called_with(url)
-        store.create_page.assert_called_with(UrlInfo("Title", "http://url.com", ["tag1"], "summary"))
+        store.create_page.assert_called_with(UrlInfo("Title", "http://url.com", ["tag1"], "summary", ["k"]))
 
     def test_handle_exception(self, fetcher, store):
         fetcher.get_info.side_effect = Exception("Error")
@@ -35,7 +35,7 @@ class TestUrlHandler:
         url = "http://url.com"
         handler.handle(url)
 
-        store.create_page.assert_called_with(UrlInfo("N/A", "http://url.com", [], ""))
+        store.create_page.assert_called_with(UrlInfo("N/A", "http://url.com", [], "", []))
 
 
 class TestUrlInfoFetcherContext:
@@ -46,7 +46,7 @@ class TestUrlInfoFetcherContext:
 
     def test_returns_info_from_first_matching_strategy(self):
         url = "http://example.com"
-        expected = UrlInfo("title", url, ["tag"], "summary")
+        expected = UrlInfo("title", url, ["tag"], "summary", ["k"])
 
         strategies = [
             MagicMock(get_info=MagicMock(return_value=None)),

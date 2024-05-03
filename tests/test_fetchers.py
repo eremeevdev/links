@@ -31,18 +31,18 @@ class TestDefaultUrlInfoFetcher:
         mock_metadata.return_value = MagicMock(title="title")
 
         analyzer = fetcher._analyzer
-        analyzer.get_info.return_value = TextInfo(title="title", tags=["tag1", "tag2"], summary="summary")
+        analyzer.get_info.return_value = TextInfo(title="title", tags=["tag1", "tag2"], summary="summary", keywords=["k"])
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(url="http://example.com", title="title", tags=["tag1", "tag2"], summary="summary")
+        assert url_info == UrlInfo(url="http://example.com", title="title", tags=["tag1", "tag2"], summary="summary", keywords=["k"])
 
     def test_fetch_failure(self, fetcher, mock_fetch, mock_metadata):
         mock_fetch.side_effect = Exception("Fetch error")
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(url="http://example.com", title="N/A", tags=[], summary="")
+        assert url_info == UrlInfo(url="http://example.com", title="N/A", tags=[], summary="", keywords=[])
 
     def test_analysis_failure(self, fetcher, mock_fetch, mock_metadata):
         mock_fetch.return_value = "content"
@@ -53,7 +53,7 @@ class TestDefaultUrlInfoFetcher:
 
         url_info = fetcher.get_info("http://example.com")
 
-        assert url_info == UrlInfo(url="http://example.com", title="example.com", tags=[], summary="")
+        assert url_info == UrlInfo(url="http://example.com", title="example.com", tags=[], summary="", keywords=[])
 
 
 class TestTgUrlInfoFetcher:
@@ -68,13 +68,13 @@ class TestTgUrlInfoFetcher:
 
     def test_return_urlinfo_for_tg_url(self, fetcher):
         url = "https://t.me/somechat/123"
-        mock_text_info = TextInfo(title="Mock Title", tags=["tag"], summary="summary")
+        mock_text_info = TextInfo(title="Mock Title", tags=["tag"], summary="summary", keywords=["k"])
         fetcher._analyzer.get_info.return_value = mock_text_info
 
         info = fetcher.get_info(url)
 
         assert info == UrlInfo(
-            url=url, title=mock_text_info.title, tags=mock_text_info.tags, summary=mock_text_info.summary
+            url=url, title=mock_text_info.title, tags=mock_text_info.tags, summary=mock_text_info.summary, keywords=mock_text_info.keywords
         )
 
 
@@ -88,7 +88,7 @@ class TestYTUrlInfoFetcher:
         }
 
         mock_analyzer = mocker.Mock(spec=TextAnalyzer)
-        mock_analyzer.get_info.return_value = TextInfo(title="", summary="", tags=["tag1", "tag2"])
+        mock_analyzer.get_info.return_value = TextInfo(title="", summary="", tags=["tag1", "tag2"], keywords=["k"])
 
         fetcher = YTUrlInfoFetcher("api_key", mock_analyzer)
 
@@ -97,7 +97,7 @@ class TestYTUrlInfoFetcher:
 
         info = fetcher.get_info(url)
 
-        assert info == UrlInfo(url=url, title="Video title", summary="Video description", tags=["tag1", "tag2"])
+        assert info == UrlInfo(url=url, title="Video title", summary="Video description", tags=["tag1", "tag2"], keywords=["k"])
 
         mock_analyzer.get_info.assert_called_once_with(f"{info.title}\n{info.summary}")
 

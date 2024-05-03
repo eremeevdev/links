@@ -9,6 +9,7 @@ class UrlInfo:
     url: str
     tags: List[str]
     summary: str
+    keywords: List[str]
 
 
 @dataclass
@@ -16,10 +17,11 @@ class TextInfo:
     title: str
     tags: List[str]
     summary: str
+    keywords: List[str]
 
     @staticmethod
     def empty() -> "TextInfo":
-        return TextInfo(title="", tags=[], summary="")
+        return TextInfo(title="", tags=[], summary="", keywords=[])
 
 
 class UrlInfoFetcher(Protocol):
@@ -61,6 +63,6 @@ class UrlHandler:
             info = self._fetcher.get_info(url)
         except Exception as e:
             traceback.print_exc()
-            info = UrlInfo(title="N/A", url=url, tags=[], summary="")
+            info = UrlInfo(title="N/A", url=url, tags=[], summary="", keywords=[])
 
         self._store.create_page(info)
