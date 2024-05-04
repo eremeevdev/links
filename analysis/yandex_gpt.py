@@ -40,7 +40,7 @@ class YandexGptTextAnalyzer:
         ]
         
         response = requests.post("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", json={
-            "modelUri": f"gpt://{self._catalog_id}/yandexgpt/latest",
+            "modelUri": f"gpt://{self._catalog_id}/yandexgpt-lite/latest",
             "completionOptions": {
                 "stream": False,
                 "temperature": 0,
@@ -49,7 +49,10 @@ class YandexGptTextAnalyzer:
             "messages": messages
         }, headers={"Authorization": f"Api-Key {self._api_key}"})
         
-        text = response.json()['result']['alternatives'][0]['message']['text']
+        text = response.json()
+        text = text['result']['alternatives'][0]['message']['text']
+        text = text.replace('“', '"').replace('”', '"')
+
         print(text)
 
         data = json.loads(text)
