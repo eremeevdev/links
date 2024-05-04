@@ -53,8 +53,6 @@ class YandexGptTextAnalyzer:
         text = text['result']['alternatives'][0]['message']['text']
         text = text.replace('“', '"').replace('”', '"')
 
-        print(text)
-
         data = json.loads(text)
 
         return TextInfo(**data)
