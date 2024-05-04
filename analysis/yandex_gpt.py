@@ -35,15 +35,17 @@ class YandexGptTextAnalyzer:
     
     def get_info(self, text: str) -> TextInfo:
 
+        # Пришлось добавить ограничение на количество знаков. 
+        # Без этого ограничения модель не всегда возвращала JSON или возвращал JSON + обычный текст
         messages=[
-            {"role": "user", "text": prompt % text},
+            {"role": "user", "text": prompt % text[:2000]},  
         ]
         
         response = requests.post("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", json={
-            "modelUri": f"gpt://{self._catalog_id}/yandexgpt-lite/latest",
+            "modelUri": f"gpt://{self._catalog_id}/yandexgpt/latest",
             "completionOptions": {
                 "stream": False,
-                "temperature": 0.3,
+                "temperature": 0,
                 "maxTokens": "1000"
             },
             "messages": messages
@@ -52,6 +54,8 @@ class YandexGptTextAnalyzer:
         text = response.json()
         text = text['result']['alternatives'][0]['message']['text']
         text = text.replace('“', '"').replace('”', '"')
+
+        print(text)
 
         data = json.loads(text)
 
