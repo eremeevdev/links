@@ -9,4 +9,5 @@ from .core import (
 )
 from .fetchers import DefaultUrlInfoFetcher, TgUrlInfoFetcher, YTUrlInfoFetcher
 from .gpt import GptTextAnalyzer
+from .yandex_gpt import YandexGptTextAnalyzer
 from .notion import NotionUrlInfoStore
