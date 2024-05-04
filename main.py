@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import dotenv
 
 from analysis import DefaultUrlInfoFetcher
-from analysis import GptTextAnalyzer
+from analysis import GptTextAnalyzer, YandexGptTextAnalyzer
 from analysis import NotionUrlInfoStore
 from analysis import UrlHandler, UrlInfoFetcherContext, TgUrlInfoFetcher, YTUrlInfoFetcher
 from bot import Bot
@@ -23,6 +23,8 @@ class Config:
     gpt_api_key: str
     tg_api_key: str
     yt_api_key: str
+    yandex_gpt_key: str
+    yandex_gpt_catalog: str
 
     @staticmethod
     def from_env() -> "Config":
@@ -32,11 +34,13 @@ class Config:
             gpt_api_key=os.environ.get("GPT_API_KEY"),
             tg_api_key=os.environ.get("TG_API_KEY"),
             yt_api_key=os.environ.get("YT_API_KEY"),
+            yandex_gpt_key=os.environ.get("YANDEX_GPT_KEY"),
+            yandex_gpt_catalog=os.environ.get("YANDEX_GPT_CATALOG")
         )
 
 
 def create_info_fetcher(config: Config) -> UrlInfoFetcherContext:
-    text_analyzer = GptTextAnalyzer(config.gpt_api_key)
+    text_analyzer = YandexGptTextAnalyzer(config.yandex_gpt_key, config.yandex_gpt_catalog)
 
     strategies = [
         YTUrlInfoFetcher(config.yt_api_key, text_analyzer),
