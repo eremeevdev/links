@@ -12,7 +12,7 @@ prompt = """
 
 Заголовок должен отражать основную идею текста, теги — быть ясными и краткими, а краткое содержание — на русском языке и передавать суть текста в нескольких предложениях. 
 
-Представьте результаты в JSON-формате. Шаблон для ответа:
+Выдай результат в формате JSON в таком виде:
 
 {
   "title": "Здесь ваш заголовок",
@@ -40,16 +40,17 @@ class YandexGptTextAnalyzer:
         ]
         
         response = requests.post("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", json={
-            "modelUri": f"gpt://{self._catalog_id}/yandexgpt",
+            "modelUri": f"gpt://{self._catalog_id}/yandexgpt/latest",
             "completionOptions": {
                 "stream": False,
-                "temperature": 0.3,
+                "temperature": 0,
                 "maxTokens": "1000"
             },
             "messages": messages
         }, headers={"Authorization": f"Api-Key {self._api_key}"})
         
         text = response.json()['result']['alternatives'][0]['message']['text']
+        print(text)
 
         data = json.loads(text)
 
