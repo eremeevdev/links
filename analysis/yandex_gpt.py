@@ -43,7 +43,7 @@ class YandexGptTextAnalyzer:
             "modelUri": f"gpt://{self._catalog_id}/yandexgpt-lite/latest",
             "completionOptions": {
                 "stream": False,
-                "temperature": 0,
+                "temperature": 0.3,
                 "maxTokens": "1000"
             },
             "messages": messages
